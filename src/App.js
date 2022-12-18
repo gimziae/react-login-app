@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from "react-redux"; // 함수에 따라 페이지에 보여지는 걸 바꿔주기위해
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import YesLogin from "./components/YesLogin";
+import Login from "./components/Login";
+import KakaoRedirectHandler from "./components/KakaoRedirectHandler";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const isLogin = useSelector((state) => state.users.isLogin);
+	return (
+		<div className="App">
+			<Routes>
+				<Route path="/" element={isLogin ? <YesLogin /> : <Login />} />
+				<Route
+					path="/oauth/callback/kakao"
+					element={<KakaoRedirectHandler />}
+				/>
+			</Routes>
+		</div>
+	);
 }
 
 export default App;
